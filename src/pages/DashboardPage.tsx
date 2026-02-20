@@ -5,6 +5,7 @@ import { isLowStock, timeAgo } from '@/lib/helpers';
 import Badge from '@/components/Badge';
 import SkeletonCard from '@/components/SkeletonCard';
 import UpdateStockModal from '@/components/UpdateStockModal';
+import ChatPanel from '@/components/ChatPanel';
 
 export default function DashboardPage() {
   const { state } = useApp();
@@ -151,6 +152,8 @@ export default function DashboardPage() {
           locationId={editingItem.locationId}
         />
       )}
+
+      <ChatPanel />
     </div>
   );
 }
