@@ -1,7 +1,68 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
+const FEATURES = [
+  { icon: '⚡', title: 'Real-time Sync', body: 'Inventory updates across all locations the moment a sale or restock happens. Zero lag, zero discrepancies.', detail: 'WebSocket-powered live updates' },
+  { icon: '🤖', title: 'AI-Powered Actions', body: 'Natural language commands to query stock, trigger orders, and get demand forecasts automatically.', detail: 'GPT-4 powered intelligence' },
+  { icon: '📍', title: 'Multi-location', body: 'Manage warehouses, physical stores, and online channels from a single unified dashboard.', detail: 'Unlimited locations' },
+  { icon: '📊', title: 'Advanced Analytics', body: 'Deep insights into stock movement, sell-through rates, and seasonal trends with beautiful visual reports.', detail: 'Custom report builder' },
+  { icon: '🔔', title: 'Smart Alerts', body: 'Get notified before stockouts happen. AI predicts low-stock situations days in advance.', detail: 'Predictive notifications' },
+  { icon: '🔗', title: 'Seamless Integrations', body: 'Connect with Shopify, WooCommerce, POS systems, and accounting tools in minutes.', detail: '50+ integrations' },
+];
+
+const PRICING = [
+  {
+    name: 'Starter',
+    price: '₹0',
+    period: '/month',
+    description: 'Perfect for small stores getting started',
+    features: ['Up to 100 SKUs', '1 location', 'Basic analytics', 'Email support', 'Manual stock updates'],
+    cta: 'Start Free',
+    highlighted: false,
+  },
+  {
+    name: 'Professional',
+    price: '₹2,999',
+    period: '/month',
+    description: 'For growing retail businesses',
+    features: ['Up to 5,000 SKUs', '10 locations', 'Advanced analytics', 'AI-powered actions', 'Priority support', 'Custom alerts', 'API access'],
+    cta: 'Start Trial',
+    highlighted: true,
+  },
+  {
+    name: 'Enterprise',
+    price: 'Custom',
+    period: '',
+    description: 'For large-scale retail operations',
+    features: ['Unlimited SKUs', 'Unlimited locations', 'Custom integrations', 'Dedicated account manager', 'SLA guarantee', 'On-premise option', 'SSO & RBAC'],
+    cta: 'Contact Sales',
+    highlighted: false,
+  },
+];
+
+const TESTIMONIALS = [
+  { name: 'Priya Sharma', role: 'Operations Head, UrbanThread', quote: 'StoreSync reduced our stockout incidents by 73% in the first quarter. The AI predictions are remarkably accurate.', avatar: 'PS' },
+  { name: 'Rahul Kapoor', role: 'Founder, KickStreet', quote: 'Managing inventory across 12 stores used to be a nightmare. Now it takes 10 minutes of my morning.', avatar: 'RK' },
+  { name: 'Anita Desai', role: 'Supply Chain Manager, LuxeRetail', quote: 'The real-time sync alone paid for itself. We haven\'t had a single oversell since switching to StoreSync.', avatar: 'AD' },
+];
+
+const HOW_IT_WORKS = [
+  { step: '01', title: 'Connect Your Stores', description: 'Link your physical stores, warehouses, and online channels in under 5 minutes.' },
+  { step: '02', title: 'Import Your Catalog', description: 'Bulk import products via CSV or connect directly to your existing POS system.' },
+  { step: '03', title: 'Go Live', description: 'Start tracking inventory in real-time. Get instant alerts and AI-powered insights.' },
+];
+
+const FAQ_ITEMS = [
+  { q: 'How long does setup take?', a: 'Most stores are fully set up within 15 minutes. Our onboarding wizard guides you through connecting locations and importing products.' },
+  { q: 'Can I use StoreSync with my existing POS?', a: 'Yes! We integrate with all major POS systems including Shopify POS, Square, Lightspeed, and more.' },
+  { q: 'Is my data secure?', a: 'Absolutely. All data is encrypted at rest and in transit. We\'re SOC 2 Type II certified and GDPR compliant.' },
+  { q: 'What happens if I exceed my SKU limit?', a: 'We\'ll notify you when you\'re approaching your limit and offer a seamless upgrade path. No disruption to your operations.' },
+];
 
 export default function LandingPage() {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -10,6 +71,12 @@ export default function LandingPage() {
         <div className="flex items-center gap-0.5">
           <span className="font-mono font-bold text-xl text-primary">STORE</span>
           <span className="font-mono font-bold text-xl text-foreground">SYNC</span>
+        </div>
+        <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+          <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
+          <a href="#testimonials" className="hover:text-foreground transition-colors">Testimonials</a>
+          <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
         </div>
         <button onClick={() => navigate('/login')} className="px-4 py-2 border border-border rounded-lg text-muted-foreground hover:text-foreground hover:border-muted transition-colors text-sm">
           Sign In
@@ -75,13 +142,24 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Trusted By / Logos */}
+      <section className="py-12 px-6 border-t border-border">
+        <p className="text-center text-xs text-muted-foreground font-mono tracking-widest uppercase mb-8">Trusted by 500+ retail brands across India</p>
+        <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+          {['UrbanThread', 'KickStreet', 'LuxeRetail', 'ThreadBarn', 'StyleVault', 'ModaHouse'].map((brand) => (
+            <span key={brand} className="font-mono text-sm text-muted-foreground/40 tracking-wider">{brand}</span>
+          ))}
+        </div>
+      </section>
+
       {/* Stats */}
       <section className="py-20 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
           {[
-            { value: '15,000+', label: 'SKUs managed across all stores' },
-            { value: '3 min', label: 'Average restock response time' },
-            { value: '99.9%', label: 'Inventory accuracy rate' },
+            { value: '15,000+', label: 'SKUs managed daily' },
+            { value: '3 min', label: 'Avg restock response' },
+            { value: '99.9%', label: 'Inventory accuracy' },
+            { value: '500+', label: 'Retail brands' },
           ].map((s) => (
             <div key={s.label}>
               <div className="font-mono font-bold text-4xl md:text-5xl text-primary mb-2">{s.value}</div>
@@ -91,20 +169,215 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 px-6 border-t border-border">
+      {/* Features Grid */}
+      <section id="features" className="py-20 px-6 border-t border-border">
         <div className="max-w-5xl mx-auto">
-          <h2 className="font-mono font-bold text-2xl md:text-3xl text-center mb-12">Built for modern retail</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: '⚡', title: 'Real-time Sync', body: 'Inventory updates across all locations the moment a sale or restock happens.' },
-              { icon: '🤖', title: 'AI-Powered', body: 'Natural language commands to query stock, trigger orders, and get forecasts.' },
-              { icon: '📍', title: 'Multi-location', body: 'Manage warehouses, physical stores, and online channels from one place.' },
-            ].map((f) => (
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-4">
+              <span className="text-primary text-xs font-mono">CAPABILITIES</span>
+            </div>
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Built for modern retail</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Everything you need to manage inventory at scale — from a single store to a nationwide chain.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURES.map((f) => (
               <div key={f.title} className="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 card-hover">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-xl mb-4">{f.icon}</div>
                 <h3 className="font-mono font-bold text-foreground mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.body}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">{f.body}</p>
+                <span className="text-xs text-primary font-mono">{f.detail}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 px-6 border-t border-border">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-4">
+              <span className="text-primary text-xs font-mono">HOW IT WORKS</span>
+            </div>
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Up and running in minutes</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">No complex setup. No migration headaches. Three simple steps to inventory clarity.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {HOW_IT_WORKS.map((item, i) => (
+              <div key={item.step} className="relative">
+                {i < HOW_IT_WORKS.length - 1 && (
+                  <div className="hidden md:block absolute top-8 left-full w-full h-px border-t border-dashed border-border -translate-x-1/2 z-0" />
+                )}
+                <div className="relative z-10">
+                  <div className="font-mono text-5xl font-bold text-primary/20 mb-3">{item.step}</div>
+                  <h3 className="font-mono font-bold text-foreground text-lg mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Showcase / Bento */}
+      <section className="py-20 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Powerful at every level</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Large card */}
+            <div className="md:row-span-2 bg-card border border-border rounded-xl p-8 flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-2xl mb-6">📈</div>
+                <h3 className="font-mono font-bold text-xl text-foreground mb-3">Demand Forecasting</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">Our AI analyzes historical data, seasonal patterns, and market trends to predict exactly how much stock you'll need — before you need it.</p>
+              </div>
+              <div className="bg-secondary rounded-lg p-4">
+                <div className="flex items-end gap-2 h-24">
+                  {[40, 55, 35, 65, 50, 80, 70, 90, 75, 95].map((h, i) => (
+                    <div key={i} className="flex-1 rounded-sm overflow-hidden">
+                      <div className={`w-full rounded-sm ${i >= 7 ? 'bg-primary/40 border border-dashed border-primary/60' : 'bg-primary/60'}`} style={{ height: `${h}%`, marginTop: `${100 - h}%` }} />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between mt-2">
+                  <span className="text-[10px] text-muted-foreground font-mono">Historical</span>
+                  <span className="text-[10px] text-primary font-mono">Predicted →</span>
+                </div>
+              </div>
+            </div>
+            {/* Small cards */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center text-lg shrink-0">✓</div>
+                <div>
+                  <h3 className="font-mono font-bold text-foreground mb-1">Automated Reorders</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Set rules once. When stock hits your threshold, purchase orders are created and sent to suppliers automatically.</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-info/10 flex items-center justify-center text-lg shrink-0">🔄</div>
+                <div>
+                  <h3 className="font-mono font-bold text-foreground mb-1">Inter-store Transfers</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Move stock between locations with one click. The system suggests optimal transfers to balance inventory.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section id="testimonials" className="py-20 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-4">
+              <span className="text-primary text-xs font-mono">TESTIMONIALS</span>
+            </div>
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Loved by retail teams</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.name} className="bg-card border border-border rounded-xl p-6">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 italic">"{t.quote}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-mono font-bold text-primary text-sm">{t.avatar}</div>
+                  <div>
+                    <div className="font-mono font-bold text-foreground text-sm">{t.name}</div>
+                    <div className="text-xs text-muted-foreground">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-20 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-4">
+              <span className="text-primary text-xs font-mono">PRICING</span>
+            </div>
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Simple, transparent pricing</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8">Start free and scale as you grow. No hidden fees, no surprises.</p>
+            <div className="inline-flex items-center bg-secondary rounded-lg p-1">
+              <button
+                onClick={() => setBillingCycle('monthly')}
+                className={`px-4 py-2 rounded-md text-sm font-mono transition-colors ${billingCycle === 'monthly' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setBillingCycle('annual')}
+                className={`px-4 py-2 rounded-md text-sm font-mono transition-colors ${billingCycle === 'annual' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Annual <span className="text-xs opacity-70">(-20%)</span>
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {PRICING.map((plan) => (
+              <div key={plan.name} className={`relative bg-card border rounded-xl p-6 flex flex-col ${plan.highlighted ? 'border-primary shadow-lg shadow-primary/10' : 'border-border'}`}>
+                {plan.highlighted && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-mono rounded-full">
+                    MOST POPULAR
+                  </div>
+                )}
+                <h3 className="font-mono font-bold text-foreground text-lg mb-1">{plan.name}</h3>
+                <p className="text-xs text-muted-foreground mb-4">{plan.description}</p>
+                <div className="mb-6">
+                  <span className="font-mono font-bold text-4xl text-foreground">
+                    {plan.price === 'Custom' ? 'Custom' : billingCycle === 'annual' && plan.price !== '₹0'
+                      ? `₹${Math.round(parseInt(plan.price.replace(/[₹,]/g, '')) * 0.8).toLocaleString('en-IN')}`
+                      : plan.price}
+                  </span>
+                  {plan.period && <span className="text-muted-foreground text-sm">{plan.period}</span>}
+                </div>
+                <ul className="flex-1 space-y-3 mb-6">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span className="text-primary text-xs">✓</span>{f}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => navigate('/login')}
+                  className={`w-full py-3 rounded-lg font-semibold text-sm transition-all ${plan.highlighted ? 'bg-primary text-primary-foreground hover:opacity-90' : 'border border-border text-muted-foreground hover:text-foreground hover:border-muted'}`}
+                >
+                  {plan.cta}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 px-6 border-t border-border">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="font-mono font-bold text-3xl md:text-4xl mb-4">Frequently asked questions</h2>
+          </div>
+          <div className="space-y-3">
+            {FAQ_ITEMS.map((item, i) => (
+              <div key={i} className="bg-card border border-border rounded-xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-5 text-left"
+                >
+                  <span className="font-mono font-bold text-foreground text-sm">{item.q}</span>
+                  <span className={`text-muted-foreground transition-transform duration-200 ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed animate-fade-up">
+                    {item.a}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -114,27 +387,79 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="py-20 px-6 bg-primary/5 border-t border-primary/20">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-mono font-bold text-2xl md:text-3xl text-foreground mb-3">Ready to unify your inventory?</h2>
-          <p className="text-muted-foreground mb-8">Start free. No credit card required.</p>
-          <button onClick={() => navigate('/login')} className="px-8 py-3.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity">
-            Launch Dashboard →
-          </button>
+          <h2 className="font-mono font-bold text-2xl md:text-4xl text-foreground mb-3">Ready to unify your inventory?</h2>
+          <p className="text-muted-foreground mb-8 max-w-lg mx-auto">Join 500+ retail brands already using StoreSync. Start free — no credit card required.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button onClick={() => navigate('/login')} className="px-8 py-3.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity">
+              Launch Dashboard →
+            </button>
+            <button onClick={() => navigate('/dashboard')} className="px-8 py-3.5 border border-border rounded-lg text-muted-foreground hover:text-foreground hover:border-muted transition-colors">
+              Explore Demo
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-0.5">
-            <span className="font-mono font-bold text-sm text-primary">STORE</span>
-            <span className="font-mono font-bold text-sm text-foreground">SYNC</span>
+      <footer className="py-16 px-6 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-0.5 mb-4">
+                <span className="font-mono font-bold text-lg text-primary">STORE</span>
+                <span className="font-mono font-bold text-lg text-foreground">SYNC</span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">Real-time retail inventory intelligence for modern commerce.</p>
+              <div className="flex gap-3">
+                {['𝕏', 'in', '▶'].map((icon) => (
+                  <div key={icon} className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-xs text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer transition-colors">
+                    {icon}
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Product */}
+            <div>
+              <h4 className="font-mono font-bold text-foreground text-sm mb-4">Product</h4>
+              <ul className="space-y-2.5">
+                {['Features', 'Pricing', 'Integrations', 'Changelog', 'Roadmap'].map((link) => (
+                  <li key={link}><span className="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors">{link}</span></li>
+                ))}
+              </ul>
+            </div>
+            {/* Company */}
+            <div>
+              <h4 className="font-mono font-bold text-foreground text-sm mb-4">Company</h4>
+              <ul className="space-y-2.5">
+                {['About', 'Blog', 'Careers', 'Press', 'Contact'].map((link) => (
+                  <li key={link}><span className="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors">{link}</span></li>
+                ))}
+              </ul>
+            </div>
+            {/* Resources */}
+            <div>
+              <h4 className="font-mono font-bold text-foreground text-sm mb-4">Resources</h4>
+              <ul className="space-y-2.5">
+                {['Documentation', 'API Reference', 'Help Center', 'Status', 'Privacy Policy', 'Terms of Service'].map((link) => (
+                  <li key={link}><span className="text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors">{link}</span></li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <span className="hover:text-foreground cursor-pointer transition-colors">Features</span>
-            <span className="hover:text-foreground cursor-pointer transition-colors">Pricing</span>
-            <span className="hover:text-foreground cursor-pointer transition-colors">Docs</span>
+          {/* Bottom bar */}
+          <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-muted-foreground">© 2026 StoreSync Technologies Pvt. Ltd. All rights reserved.</div>
+            <div className="flex items-center gap-6 text-xs text-muted-foreground">
+              <span className="hover:text-foreground cursor-pointer transition-colors">Privacy</span>
+              <span className="hover:text-foreground cursor-pointer transition-colors">Terms</span>
+              <span className="hover:text-foreground cursor-pointer transition-colors">Cookies</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-success" />
+                All systems operational
+              </span>
+            </div>
           </div>
-          <div className="text-xs text-muted-foreground">© 2026 StoreSync. All rights reserved.</div>
         </div>
       </footer>
     </div>
